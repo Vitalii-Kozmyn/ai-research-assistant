@@ -1,0 +1,99 @@
+# =========================
+# Backend - Python / FastAPI
+# =========================
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.venv/
+env/
+ENV/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Python cache / tools
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# =========================
+# FastAPI / uploads
+# =========================
+
+# Uploaded documents
+uploads/
+media/
+storage/
+
+# =========================
+# Frontend - React / Node
+# =========================
+
+node_modules/
+dist/
+build/
+.vite/
+
+# Environment variables
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# =========================
+# IDE
+# =========================
+
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+.idea/
+
+# =========================
+# OS
+# =========================
+
+.DS_Store
+Thumbs.db
+
+# =========================
+# Logs
+# =========================
+
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# =========================
+# Database
+# =========================
+
+*.sqlite
+*.sqlite3
+*.db
+
+# =========================
+# Alembic
+# =========================
+
+# Do NOT ignore migrations!
+# alembic/versions/ should be committed
+
+# =========================
+# Generated files
+# =========================
+
+# ChromaDB
+chroma_db/
+
+generated/
+*.pyc
