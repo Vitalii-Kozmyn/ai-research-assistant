@@ -62,6 +62,28 @@ def get_chat_messages(db: Session, user_id: int, chat_id: int):
 
     return messages
 
+def build_sources(retrieved_chunks: list[dict]) -> list[dict]:
+    sources = []
+    seen = set()
+
+    for chunk in retrieved_chunks:
+        filename = chunk["filename"]
+        page = chunk["page"]
+
+        key = (filename, page)
+
+        if key in seen:
+            continue
+
+        seen.add(key)
+
+        sources.append({
+            "document": filename,
+            "page": page,
+        })
+
+    return sources
+
 def process_user_message(db: Session, user_id: int, chat_id: int, content: str):
     previous_messages = get_chat_messages(
         db=db,
@@ -137,11 +159,5 @@ def process_user_message(db: Session, user_id: int, chat_id: int, content: str):
 
     return {
         "answer": answer,
-        "sources": [
-            {
-                "document": chunk["filename"],
-                "page": chunk["page"]
-            }
-            for chunk in retrieved_chunks
-        ]
+        "sources": build_sources(retrieved_chunks)
     }

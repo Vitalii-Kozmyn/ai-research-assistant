@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 
 from app.config.database import get_db
 from app.schemas.user import UserLogin, UserRegister
-from app.services.auth import register_user, login_user
-from app.schemas.token import TokenResponse
+from app.services.auth import register_user, login_user, refresh_access_token
+from app.schemas.token import TokenResponse, RefreshTokenRequest
 
 router = APIRouter(
     prefix="/auth",
@@ -34,3 +34,7 @@ def login(user_data: UserLogin, db: Session = Depends(get_db)):
     user_tokens = login_user(db=db, email=user_data.email, password=user_data.password)
 
     return user_tokens
+
+@router.post("/refresh", response_model=TokenResponse)
+def refresh_token(token_data: RefreshTokenRequest, db: Session = Depends(get_db)):
+    return refresh_access_token(db=db, refresh_token=token_data.refresh_token)

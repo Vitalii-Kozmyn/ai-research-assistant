@@ -1,4 +1,5 @@
 import './App.css'
+// import './index.css'
 import AppRoutes from "./routes/AppRoutes";
 import { AuthProvider } from "./context/AuthContext";
 

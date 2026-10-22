@@ -66,6 +66,24 @@ def create_refresh_token(subject: Union[str, Any], expires_delta: timedelta | No
         algorithm=ALGORITHM
     )
 
+def decode_refresh_token(token: str):
+    try:
+        payload = jwt.decode(
+            token,
+            JWT_REFRESH_SECRET_KEY,
+            algorithms=[ALGORITHM]
+        )
+
+        user_id = payload.get("sub")
+
+        if user_id is None:
+            return None
+
+        return user_id
+
+    except Exception:
+        return None
+
 def get_pdf_page_count(file_path: str) -> int | None:
     try:
         reader = PdfReader(file_path)

@@ -10,7 +10,7 @@ interface RegisterData {
     password: string;
 }
 
-interface TokenResponse {
+export interface TokenResponse {
     access_token: string;
     refresh_token: string;
     token_type: string;
@@ -28,5 +28,10 @@ export async function registerUser(data: RegisterData) {
 
 export async function getCurrentUser() {
     const response = await api.get("/user/me");
+    return response.data;
+}
+
+export async function refreshAccessToken(refreshToken: string): Promise<TokenResponse> {
+    const response = await api.post<TokenResponse>("/auth/refresh", { refresh_token: refreshToken });
     return response.data;
 }

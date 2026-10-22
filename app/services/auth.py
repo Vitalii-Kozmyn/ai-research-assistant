@@ -2,7 +2,7 @@ from http.client import HTTPException
 
 from sqlalchemy.orm import Session 
 from app.models.user import User
-from app.utils import create_access_token, create_refresh_token, get_hashed_password, verify_password
+from app.utils import create_access_token, create_refresh_token, get_hashed_password, verify_password, decode_refresh_token
 
 def register_user(db: Session, email: str, password: str):
     existing_user = db.query(User).filter(User.email == email).first()
@@ -42,6 +42,33 @@ def login_user(db: Session, email: str, password: str):
 
     return {
         "access_token": access_token,
+        "refresh_token": refresh_token,
+        "token_type": "bearer"
+    }
+
+def refresh_access_token(db: Session, refresh_token: str):
+    user_id = decode_refresh_token(refresh_token)
+
+    if user_id is None:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid or expired refresh token"
+        )
+
+    user = db.query(User).filter(
+        User.id == int(user_id)
+    ).first()
+
+    if user is None:
+        raise HTTPException(
+            status_code=401,
+            detail="User not found"
+        )
+
+    new_access_token = create_access_token(subject=user.id)
+
+    return {
+        "access_token": new_access_token,
         "refresh_token": refresh_token,
         "token_type": "bearer"
     }

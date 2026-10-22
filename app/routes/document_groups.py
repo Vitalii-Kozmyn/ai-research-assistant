@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.config.database import get_db
+from app.schemas.document import DocumentResponse
 from app.schemas.document_group import (
     DocumentGroupCreate,
     DocumentGroupUpdate,
@@ -33,9 +34,7 @@ def create_document_group(data: DocumentGroupCreate, db: Session = Depends(get_d
 def get_document_groups(db: Session = Depends(get_db), current_user=Depends(get_current_user)):
     return get_user_groups(db=db, user_id=current_user.id)
 
-@router.get(
-    "/{group_id}",
-    response_model=DocumentGroupResponse
+@router.get("/{group_id}", response_model=DocumentGroupResponse
 )
 def get_document_group(group_id: int, db: Session = Depends(get_db), current_user=Depends(get_current_user)):
     return get_group(db=db, user_id=current_user.id, group_id=group_id)
@@ -52,7 +51,7 @@ def delete_document_group(group_id: int, db: Session = Depends(get_db), current_
 def add_group_document(group_id: int, data: GroupDocumentCreate, db: Session = Depends(get_db), current_user=Depends(get_current_user)):
     return add_document_to_group(db=db, user_id=current_user.id, group_id=group_id, document_id=data.document_id)
 
-@router.get("/{group_id}/documents")
+@router.get("/{group_id}/documents", response_model=list[DocumentResponse])
 def get_documents_from_group(group_id: int, db: Session = Depends(get_db), current_user=Depends(get_current_user)):
     return get_group_documents(db=db, user_id=current_user.id, group_id=group_id)
 

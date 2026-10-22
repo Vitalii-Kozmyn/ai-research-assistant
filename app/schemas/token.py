@@ -9,3 +9,6 @@ class TokenResponse(BaseModel):
 
 class TokenData(BaseModel):
     sub: str
+
+class RefreshTokenRequest(BaseModel):
+    refresh_token: str

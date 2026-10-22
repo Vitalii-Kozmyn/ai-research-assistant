@@ -26,34 +26,45 @@ export default function Register() {
     };
 
     return (
-        <div>
-            <h1>Register</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(event) => setEmail(event.target.value)}
-                    />
+       <section className="register-section">
+            <div className="register__container">
+                <div className="logo-title">
+                    <img src="../public/rai-logo.png" alt="" />
+                    <h3>ResearchAI</h3>
                 </div>
-                <div>
-                    <label>Password</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                    />
+                <div className="main__title">
+                    <h2>Create account</h2>
+                    <p>Start your AI research journey</p>
                 </div>
-                {error && (<p>{error}</p>)}
-                {success && (<p>{success}</p>)}
-                <button type="submit"> Register</button>
-            </form>
+                <form onSubmit={handleSubmit} className="auth__form">
+                    <div>
+                        <label>Email</label>
+                        <input
+                            type="email"
+                            placeholder="your@email.com"
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <label>Password</label>
+                        <input
+                            type="password"
+                            placeholder="••••••••"
+                            value={password}
+                            onChange={(event) => setPassword(event.target.value)}
+                        />
+                    </div>
+                    {error && (<p>{error}</p>)}
+                    {success && (<p>{success}</p>)}
+                    <button type="submit">Create account</button>
 
-            <p>
-                Already have an account?{" "}
-                <Link to="/login">Login</Link>
-            </p>
-        </div>
+                    <p>
+                        Already have an account?{" "}
+                        <Link to="/login">Login</Link>
+                    </p>
+                </form>
+            </div>
+       </section>
     );
 }

@@ -33,33 +33,51 @@ export default function Login() {
     };
 
     return (
-        <div>
-            <h1>Login</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(event) => setEmail(event.target.value)}
-                    />
+        <section className="login-section">
+            <div className="auth__container">
+                <div className="logo-title">
+                    <img src="../public/rai-logo.png" alt="" />
+                    <h3>ResearchAI</h3>
                 </div>
-                <div>
-                    <label>Password</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                    />
+                <div className="main__title">
+                    <h2>Welcome back</h2>
+                    <p>Sign in to your workspace</p>
                 </div>
-                {error && (<p>{error}</p>)}
-                <button type="submit">Login</button>
-            </form>
+                <form onSubmit={handleSubmit} className="auth__form">
+                    <div>
+                        <label>Email</label>
+                        <input
+                            type="email"
+                            placeholder="your@email.com"
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
+                        />
+                    </div>
 
-            <p>
-                Don't have an account?{" "}
-                <Link to="/register">Register</Link>
-            </p>
-        </div>
+                    <div>
+                        <label>Password</label>
+                        <input
+                            type="password"
+                            placeholder="••••••••"
+                            value={password}
+                            onChange={(event) => setPassword(event.target.value)}
+                        />
+                    </div>
+
+                    {error && (
+                        <p className="error">{error}</p>
+                    )}
+
+                    <button type="submit">
+                        Sign in
+                    </button>
+
+                    <p>
+                        Don't have an account?{" "}
+                        <Link to="/register">Sign up</Link>
+                    </p>
+                </form>
+            </div>
+        </section>
     );
 }

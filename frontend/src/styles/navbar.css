@@ -1,0 +1,79 @@
+.nav__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px 26px;
+    border-bottom: 1px solid #38291e;
+}
+
+.nav__container__main {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.nav__container__title {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav__container__title img {
+    width: 34px;
+    height: 36px;
+}
+
+.nav__container__title h3{
+    font-size: 16px;
+}
+
+.nav__container__options {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.options-files, .options-chats {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    background: transparent;
+    color: var(--text-amber);
+}
+
+.options-files img, .options-chats img {
+    width: 18px;
+    height: 16px;
+}
+
+.options-files, .options-chats, .info-email {
+    background-color: rgba(245, 178, 91, 0.07);
+    border-radius: 20px;
+    padding: 6px 22px;
+    cursor: pointer;
+}
+
+.options-files p, .options-chats p, .info-email p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.nav__container__info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logout-btn {
+    background-color: transparent;
+    border: none;
+    color: rgba(245, 178, 91, 0.55);;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.logout-btn:hover {
+    color: var(--accent-terracotta);
+}
