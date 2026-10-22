@@ -1,4 +1,3 @@
-
 import type { MouseEvent } from "react";
 import type { Document } from "../services/documentsService";
 
@@ -22,23 +21,12 @@ function formatFileSize(bytes: number): string {
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-export default function FileItem({
-    document,
-    selected,
-    disabled = false,
-    onToggle,
-    onContextMenu,
-}: FileItemProps) {
+export default function FileItem({document, selected, disabled = false, onToggle, onContextMenu,}: FileItemProps) {
     const isPdf = document.file_type.toLowerCase().includes("pdf");
 
     function handleContextMenu(event: MouseEvent<HTMLDivElement>) {
         event.preventDefault();
-
-        onContextMenu(
-            document.id,
-            event.clientX,
-            event.clientY
-        );
+        onContextMenu(document.id, event.clientX, event.clientY);
     }
 
     return (

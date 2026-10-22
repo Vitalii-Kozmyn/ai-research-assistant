@@ -22,10 +22,7 @@ function formatTime(value: string): string {
     });
 }
 
-export default function ChatMessage({
-    message,
-    sources = [],
-}: ChatMessageProps) {
+export default function ChatMessage({message, sources = [], }: ChatMessageProps) {
     const isUser = message.role.toLowerCase() === "user";
 
     return (

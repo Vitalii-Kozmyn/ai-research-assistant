@@ -1,15 +1,6 @@
-
-import {
-    useCallback,
-    useEffect,
-    useRef,
-    useState,
-} from "react";
-
+import {useCallback, useEffect, useRef, useState,} from "react";
 import type { MouseEvent, FormEvent, ChangeEvent } from "react";
-
 import FileItem from "./FileItem";
-
 import {
     getDocuments,
     getDocumentGroups,
@@ -85,13 +76,7 @@ function getErrorMessage(error: unknown): string {
     return "Something went wrong. Please try again.";
 }
 
-export default function FilesSidebar({
-    selectedIds,
-    onToggleDocument,
-    selectionError,
-    onClearSelectionError,
-    selectionDisabled,
-}: FilesSidebarProps) {
+export default function FilesSidebar({selectedIds, onToggleDocument, selectionError, onClearSelectionError, selectionDisabled,}: FilesSidebarProps) {
     const [documents, setDocuments] = useState<Document[]>([]);
     const [groups, setGroups] = useState<FileGroupData[]>([]);
     const [collapsedGroups, setCollapsedGroups] = useState<number[]>([]);
@@ -155,28 +140,13 @@ export default function FilesSidebar({
         );
     }
 
-    function openDocumentMenu(
-        documentId: number,
-        x: number,
-        y: number
-    ) {
-        setContextMenu({
-            type: "document",
-            documentId,
-            x,
-            y,
-        });
+    function openDocumentMenu(documentId: number, x: number, y: number) {
+        setContextMenu({type: "document", documentId, x, y,});
     }
 
     function openGroupMenu(event: MouseEvent, groupId: number) {
         event.preventDefault();
-
-        setContextMenu({
-            type: "group",
-            groupId,
-            x: event.clientX,
-            y: event.clientY,
-        });
+        setContextMenu({type: "group", groupId, x: event.clientX, y: event.clientY,});
     }
 
     function openCreateGroupModal(addDocumentId?: number) {
@@ -197,9 +167,7 @@ export default function FilesSidebar({
         });
     }
 
-    async function handleGroupModalSubmit(
-        event: FormEvent<HTMLFormElement>
-    ) {
+    async function handleGroupModalSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
         const name = groupName.trim();
@@ -243,15 +211,9 @@ export default function FilesSidebar({
         if (contextMenu?.type !== "document") return;
 
         const documentId = contextMenu.documentId;
-        const targetGroup = groups.find(
-            (group) => group.id === groupId
-        );
+        const targetGroup = groups.find((group) => group.id === groupId);
 
-        if (
-            targetGroup?.documents.some(
-                (document) => document.id === documentId
-            )
-        ) {
+        if (targetGroup?.documents.some((document) => document.id === documentId)) {
             setContextMenu(null);
             return;
         }
@@ -294,10 +256,7 @@ export default function FilesSidebar({
     async function handleDeleteDocument() {
         if (contextMenu?.type !== "document") return;
 
-        const document = documents.find(
-            (item) => item.id === contextMenu.documentId
-        );
-
+        const document = documents.find((item) => item.id === contextMenu.documentId);
         if (!document) return;
 
         const confirmed = window.confirm(
@@ -314,7 +273,6 @@ export default function FilesSidebar({
 
             setContextMenu(null);
 
-            // Synchronize the document list and selected checkboxes.
             if (selectedIds.includes(document.id)) {
                 onToggleDocument(document.id);
             }
@@ -365,8 +323,6 @@ export default function FilesSidebar({
         event: ChangeEvent<HTMLInputElement>
     ) {
         const file = event.target.files?.[0];
-
-        // Allow selecting the same file again after an upload.
         event.target.value = "";
 
         if (!file) return;
@@ -384,12 +340,9 @@ export default function FilesSidebar({
 
             await loadFiles();
 
-            // Select the uploaded file through Home's shared state.
             if (!selectedIds.includes(uploadedDocument.id)) {
                 if (selectedIds.length >= MAX_SELECTED_FILES) {
-                    setError(
-                        `File uploaded, but you can select only ${MAX_SELECTED_FILES} files.`
-                    );
+                    setError(`File uploaded, but you can select only ${MAX_SELECTED_FILES} files.`);
                 } else {
                     onToggleDocument(uploadedDocument.id);
                 }

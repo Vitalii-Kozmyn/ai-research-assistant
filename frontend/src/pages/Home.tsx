@@ -14,6 +14,7 @@ import {
 } from "../services/chatsService";
 
 const MAX_SELECTED_FILES = 5;
+type MobilePanel = "files" | "chats" | null;
 
 export default function Home() {
     const [activeChat, setActiveChat] = useState<Chat | null>(null);
@@ -23,21 +24,33 @@ export default function Home() {
     const [loadingChatDocuments, setLoadingChatDocuments] = useState(false);
     const [isFilesSidebarVisible, setIsFilesSidebarVisible] = useState(true);
     const [isChatsSidebarVisible, setIsChatsSidebarVisible] = useState(true);
+    const [mobilePanel, setMobilePanel] = useState<MobilePanel>(null);
 
     const selectionRequestRef = useRef(0);
     const documentActionRef = useRef(false);
 
     function handleToggleFilesSidebar() {
+        if (window.matchMedia("(max-width: 650px)").matches) {
+            setMobilePanel((panel) => panel === "files" ? null : "files");
+            return;
+        }
+
         setIsFilesSidebarVisible((visible) => !visible);
     }
 
     function handleToggleChatsSidebar() {
+        if (window.matchMedia("(max-width: 650px)").matches) {
+            setMobilePanel((panel) => panel === "chats" ? null : "chats");
+            return;
+        }
+
         setIsChatsSidebarVisible((visible) => !visible);
     }
 
     async function handleSelectChat(chat: Chat) {
         const requestId = ++selectionRequestRef.current;
 
+        setMobilePanel(null);
         setActiveChat(chat);
         setSelectedDocumentIds([]);
         setSelectionError("");
@@ -142,10 +155,16 @@ export default function Home() {
 
     return (
         <div className="home-page">
-            <Nav onToggleFiles={handleToggleFilesSidebar} onToggleChats={handleToggleChatsSidebar}/>
+            <Nav
+                onToggleFiles={handleToggleFilesSidebar}
+                onToggleChats={handleToggleChatsSidebar}
+                mobilePanel={mobilePanel}
+            />
             
-            <main className="home-workspace">
-                {isFilesSidebarVisible && (
+            <main
+                className={`home-workspace${mobilePanel ? ` home-workspace--mobile-${mobilePanel}` : ""}`}
+            >
+                {(isFilesSidebarVisible || mobilePanel === "files") && (
                     <FilesSidebar
                         selectedIds={selectedDocumentIds}
                         onToggleDocument={handleToggleDocument}
@@ -155,7 +174,7 @@ export default function Home() {
                     />
                 )}
 
-                {isChatsSidebarVisible && (
+                {(isChatsSidebarVisible || mobilePanel === "chats") && (
                     <ChatsSidebar
                         activeChatId={activeChat?.id ?? null}
                         refreshKey={chatsRefreshKey}

@@ -1,13 +1,6 @@
 
 import { useCallback, useEffect, useState } from "react";
-
-import {
-    createChat,
-    deleteChat,
-    getChats,
-    renameChat,
-    type Chat,
-} from "../../services/chatsService";
+import {createChat, deleteChat, getChats, renameChat,type Chat,} from "../../services/chatsService";
 
 interface ChatsSidebarProps {
     activeChatId: number | null;
@@ -20,16 +13,8 @@ interface ChatsSidebarProps {
 }
 
 function getErrorMessage(error: unknown): string {
-    if (
-        typeof error === "object" &&
-        error !== null &&
-        "response" in error
-    ) {
-        const response = (
-            error as {
-                response?: { data?: { detail?: string } };
-            }
-        ).response;
+    if ( typeof error === "object" && error !== null && "response" in error) {
+        const response = (error as { response?: { data?: { detail?: string } }; }).response;
 
         if (response?.data?.detail) return response.data.detail;
     }
@@ -45,26 +30,14 @@ function formatChatDate(value: string): string {
     const elapsed = Date.now() - date.getTime();
 
     if (elapsed < 60_000) return "Just now";
-    if (elapsed < 3_600_000) {
-        return `${Math.floor(elapsed / 60_000)}m ago`;
-    }
-    if (elapsed < 86_400_000) {
-        return `${Math.floor(elapsed / 3_600_000)}h ago`;
-    }
+    if (elapsed < 3_600_000) { return `${Math.floor(elapsed / 60_000)}m ago`; }
+    if (elapsed < 86_400_000) { return `${Math.floor(elapsed / 3_600_000)}h ago`; }
     if (elapsed < 172_800_000) return "Yesterday";
 
     return date.toLocaleDateString();
 }
 
-export default function ChatsSidebar({
-    activeChatId,
-    refreshKey,
-    documentIds,
-    onSelectChat,
-    onChatCreated,
-    onChatDeleted,
-    onChatUpdated,
-}: ChatsSidebarProps) {
+export default function ChatsSidebar({activeChatId, refreshKey, documentIds, onSelectChat, onChatCreated, onChatDeleted, onChatUpdated,}: ChatsSidebarProps) {
     const [chats, setChats] = useState<Chat[]>([]);
     const [loading, setLoading] = useState(true);
     const [busy, setBusy] = useState(false);
@@ -75,7 +48,6 @@ export default function ChatsSidebar({
     const loadChats = useCallback(async () => {
         try {
             setError("");
-
             const result = await getChats();
 
             setChats(
@@ -92,9 +64,7 @@ export default function ChatsSidebar({
         }
     }, []);
 
-    useEffect(() => {
-        void loadChats();
-    }, [loadChats, refreshKey]);
+    useEffect(() => { void loadChats(); }, [loadChats, refreshKey]);
 
     async function handleCreateChat() {
         setBusy(true);
@@ -146,11 +116,7 @@ export default function ChatsSidebar({
     }
 
     async function handleDelete(chat: Chat) {
-        if (
-            !window.confirm(
-                `Delete "${chat.title || "Untitled chat"}"? This cannot be undone.`
-            )
-        ) {
+        if (!window.confirm(`Delete "${chat.title || "Untitled chat"}"? This cannot be undone.`)) {
             return;
         }
 
@@ -160,9 +126,7 @@ export default function ChatsSidebar({
         try {
             await deleteChat(chat.id);
 
-            setChats((current) =>
-                current.filter((item) => item.id !== chat.id)
-            );
+            setChats((current) => current.filter((item) => item.id !== chat.id));
 
             setEditingChatId(null);
             onChatDeleted(chat.id);

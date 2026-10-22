@@ -3,9 +3,10 @@ import { useAuth } from "../context/AuthContext";
 type NavProps = {
     onToggleFiles: () => void;
     onToggleChats: () => void;
+    mobilePanel: "files" | "chats" | null;
 };
 
-export default function Navbar({onToggleFiles, onToggleChats}: NavProps) {
+export default function Navbar({onToggleFiles, onToggleChats, mobilePanel,}: NavProps) {
     const { user, logout } = useAuth();
 
     return (
@@ -19,18 +20,20 @@ export default function Navbar({onToggleFiles, onToggleChats}: NavProps) {
 
                     <div className="nav__container__options">
                         <button
-                            className="options-files"
+                            className={`options-files${mobilePanel === "files" ? " is-active" : ""}`}
                             onClick={onToggleFiles}
                             type="button"
+                            aria-label={mobilePanel === "files" ? "Close files panel" : "Show files panel"}
                         >
                             <img src="/file-icon.png" alt="" />
                             <p>Files</p>
                         </button>
 
                         <button
-                            className="options-chats"
+                            className={`options-chats${mobilePanel === "chats" ? " is-active" : ""}`}
                             onClick={onToggleChats}
                             type="button"
+                            aria-label={mobilePanel === "chats" ? "Close chats panel" : "Show chats panel"}
                         >
                             <img src="/chat-icon.png" alt="" />
                             <p>Chats</p>

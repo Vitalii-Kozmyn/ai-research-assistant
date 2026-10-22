@@ -1,21 +1,5 @@
-
-import {
-    useCallback,
-    useEffect,
-    useRef,
-    useState,
-    type FormEvent,
-    type KeyboardEvent,
-} from "react";
-
-import {
-    getChatMessages,
-    sendChatMessage,
-    type Chat,
-    type Message,
-    type MessageSource,
-} from "../../services/chatsService";
-
+import {useCallback, useEffect, useRef, useState, type FormEvent, type KeyboardEvent,} from "react";
+import {getChatMessages, sendChatMessage, type Chat, type Message, type MessageSource,} from "../../services/chatsService";
 import ChatMessage from "./ChatMessage";
 import TypingIndicator from "./TypingIndicator";
 
@@ -25,18 +9,13 @@ interface ChatWindowProps {
     onChatUpdated: (chat: Chat) => void;
 }
 
-
 interface MessageWithSources {
     message: Message;
     sources: MessageSource[];
 }
 
 function getErrorMessage(error: unknown): string {
-    if (
-        typeof error === "object" &&
-        error !== null &&
-        "response" in error
-    ) {
+    if (typeof error === "object" && error !== null && "response" in error) {
         const response = (
             error as {
                 response?: { data?: { detail?: string } };
@@ -51,11 +30,7 @@ function getErrorMessage(error: unknown): string {
     return "Unable to complete the request. Please try again.";
 }
 
-export default function ChatWindow({
-    chat,
-    activeFilesCount,
-    onChatUpdated,
-}: ChatWindowProps) {
+export default function ChatWindow({chat, activeFilesCount, onChatUpdated,}: ChatWindowProps) {
     const [messages, setMessages] = useState<MessageWithSources[]>([]);
     const [input, setInput] = useState("");
     const [loadingMessages, setLoadingMessages] = useState(false);
@@ -69,10 +44,7 @@ export default function ChatWindow({
     const activeRequestRef = useRef(0);
 
     const scrollToBottom = useCallback((behavior: ScrollBehavior = "auto") => {
-        messagesEndRef.current?.scrollIntoView({
-            behavior,
-            block: "end",
-        });
+        messagesEndRef.current?.scrollIntoView({behavior, block: "end",})
     }, []);
 
     const handleScroll = useCallback(() => {
@@ -210,8 +182,6 @@ export default function ChatWindow({
             });
         } catch (err) {
             setError(getErrorMessage(err));
-
-            // Keep the user's text visible and allow retrying it.
             setInput(content);
         } finally {
             setSending(false);
