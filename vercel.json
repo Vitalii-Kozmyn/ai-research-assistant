@@ -1,0 +1,91 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "app": {
+      "root": ".",
+      "framework": "fastapi",
+      "entrypoint": "app.main:app"
+    },
+    "frontend": {
+      "root": "frontend/",
+      "framework": "vite",
+      "installCommand": "npm ci",
+      "buildCommand": "npm run build",
+      "outputDirectory": "dist",
+      "rewrites": [
+        {
+          "source": "/(.*)",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/auth",
+      "destination": {
+        "service": "app"
+      }
+    },
+    {
+      "source": "/auth/(.*)",
+      "destination": {
+        "service": "app"
+      }
+    },
+    {
+      "source": "/user",
+      "destination": {
+        "service": "app"
+      }
+    },
+    {
+      "source": "/user/(.*)",
+      "destination": {
+        "service": "app"
+      }
+    },
+    {
+      "source": "/documents",
+      "destination": {
+        "service": "app"
+      }
+    },
+    {
+      "source": "/documents/(.*)",
+      "destination": {
+        "service": "app"
+      }
+    },
+    {
+      "source": "/document-groups",
+      "destination": {
+        "service": "app"
+      }
+    },
+    {
+      "source": "/document-groups/(.*)",
+      "destination": {
+        "service": "app"
+      }
+    },
+    {
+      "source": "/chats",
+      "destination": {
+        "service": "app"
+      }
+    },
+    {
+      "source": "/chats/(.*)",
+      "destination": {
+        "service": "app"
+      }
+    },
+    {
+      "source": "/(.*)",
+      "destination": {
+        "service": "frontend"
+      }
+    }
+  ]
+}
