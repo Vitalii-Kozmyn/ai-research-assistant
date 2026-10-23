@@ -97,5 +97,3 @@ chroma_db/
 
 generated/
 *.pyc
-
-requirements.txt
