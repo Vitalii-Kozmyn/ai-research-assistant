@@ -1,7 +1,11 @@
 import axios, { type AxiosError, type InternalAxiosRequestConfig } from "axios";
 import type { TokenResponse } from "./authService";
 
-const api = axios.create({baseURL: import.meta.env.VITE_API_URL});
+const API_URL = import.meta.env.VITE_API_URL ?? "";
+
+const api = axios.create({
+    baseURL: API_URL,
+});
 
 api.interceptors.request.use((config) => {
         const token = localStorage.getItem("accessToken");
@@ -39,7 +43,7 @@ api.interceptors.response.use((response) => {
             try {
                 const response =
                     await axios.post<TokenResponse>(
-                        `${import.meta.env.VITE_API_URL}/auth/refresh`,
+                        `${API_URL}/auth/refresh`,
                         {
                             refresh_token:
                                 refreshToken

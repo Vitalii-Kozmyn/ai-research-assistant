@@ -1,0 +1,17 @@
+alembic
+bcrypt
+chromadb
+email-validator
+fastapi
+google-genai
+PyMuPDF
+pydantic
+pypdf
+python-docx
+python-dotenv
+python-jose[cryptography]
+python-multipart
+sentence-transformers
+SQLAlchemy
+uvicorn[standard]
+psycopg2-binary
